@@ -1,2 +1,11 @@
-<!-- <p>Hello</p> -->
-<tldl-nav></tldl-nav>
+<div class="container">
+    <div class="loader" *ngIf="!loaded">
+        <mat-card class="card">
+            <mat-card-title>
+                Loading...
+            </mat-card-title>
+            <mat-progress-spinner class="spinner" mode="indeterminate"></mat-progress-spinner>
+        </mat-card>
+    </div>
+    <router-outlet *ngIf="loaded"></router-outlet>
+</div>
