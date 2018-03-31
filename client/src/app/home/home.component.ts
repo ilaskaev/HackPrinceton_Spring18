@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {SpeechRecognitionService} from '../services/speech-recognition.service';
 
 @Component({
   selector: 'tldl-home',
@@ -7,8 +9,11 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   public editor;
+  existingText: string;
+  editorContent: string;
 
-  constructor() {}
+  constructor(private speechRecognition: SpeechRecognitionService,
+              public dialog: MatDialog) {}
 
   ngOnInit() {}
 
@@ -28,4 +33,33 @@ export class HomeComponent implements OnInit {
   onContentChanged({quill, html, text}) {
     console.log('quill content is changed!', quill, html, text);
   }
+
+  startRecording() {
+    this.existingText = this.editorContent || "";
+    this.speechRecognition.startSpeechRecognition(true, true, "en-US").subscribe((result) => {
+      this.editorContent = this.existingText + '<p>' + result + '</p>';
+    });
+    let dialogRef = this.dialog.open(RecordingDialog, {
+      width: '50%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.stopRecording();
+    })
+  }
+
+  stopRecording() {
+    this.speechRecognition.stopSpeechRecognition().then(value => {
+      console.log(value);
+    });
+  }
+}
+
+@Component({
+  selector: 'recording-dialog',
+  template: `<p>Recording</p><button (click)="dialogRef.close()">Stop Recording</button>`
+})
+export class RecordingDialog {
+  constructor(
+    public dialogRef: MatDialogRef<RecordingDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 }

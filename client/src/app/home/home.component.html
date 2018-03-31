@@ -5,5 +5,7 @@
     <div class="editor-col">
         <quill-editor id="editor" [(ngModel)]="editorContent" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)" (ready)="onEditorCreated($event)"
             (change)="onContentChanged($event)"></quill-editor>
+            <button *ngIf="!speechRecognition.isRecording" class="record-button" (click)="startRecording()">Start Recording</button>
+            <button *ngIf="speechRecognition.isRecording" class="record-button" (click)="stopRecording()">Stop Recording</button>
     </div>
 </div>
