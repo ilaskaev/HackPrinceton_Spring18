@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSnackBarModule, MatToolbarModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {AngularFireModule} from 'angularfire2';
@@ -19,10 +20,11 @@ import {ApplicationRouterModule} from './router/router.module';
 import {ToastService} from './services/toast.service';
 
 
+
 @NgModule({
   declarations: [AppComponent, AuthComponent, HomeComponent],
   imports: [
-    BrowserModule, CoreModule,
+    BrowserModule, CoreModule, FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, AngularFireAuthModule, ApplicationRouterModule,
     MatToolbarModule, MatButtonModule, MatProgressBarModule, MatMenuModule,
