@@ -1,8 +1,8 @@
-import { ToastService } from './../services/toast.service';
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Route} from '@angular/router';
 
+import {ToastService} from './../services/toast.service';
 import {AuthService} from './auth.service';
 
 @Component({
@@ -11,7 +11,9 @@ import {AuthService} from './auth.service';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  constructor(private _auth: AuthService, private _router: Router, private _toast: ToastService) {}
+  constructor(
+      private _auth: AuthService, private _router: Router,
+      private _toast: ToastService) {}
 
   ngOnInit(): void{this._auth.authenticated.subscribe(res => {
     if (res != null) {
@@ -34,12 +36,12 @@ export class AuthComponent implements OnInit {
   }
 
   signInWithTwitter(): void {
-      this.notAvailable();
+    this.notAvailable();
     // this._auth.twitterLogin().then(() => this.afterSignIn());
   }
 
   private notAvailable(): void {
-      this._toast.toast('Only Google provider is enabled at the moment. :(')
+    this._toast.toast('Only Google provider is enabled at the moment. :(')
   }
 
   private afterSignIn(): void {
