@@ -15,6 +15,7 @@ import {CoreModule} from './core/core.module';
 import {NavComponent} from './core/nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { ToastService } from './services/toast.service';
+import{ SpeechRecognitionService } from './services/speech-recognition.service';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { ToastService } from './services/toast.service';
     MatButtonModule, MatProgressBarModule, MatMenuModule, MatIconModule, MatSnackBarModule,
     MatProgressSpinnerModule, MatCardModule
   ],
-  providers: [AuthService, AuthGuard, ToastService],
+  providers: [AuthService, AuthGuard, ToastService, SpeechRecognitionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
