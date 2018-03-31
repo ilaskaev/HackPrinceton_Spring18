@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Sentence } from './sentence';
 import * as uuid from 'uuid';
+import Recorder from 'recorder-js';
 
 declare const webkitSpeechRecognition;
 
@@ -14,9 +15,14 @@ export class SpeechRecognitionService {
   sentences: Sentence[] = [];
   recordingStart = 0;
   recordingUUID = "";
+  recorder: Recorder;
+  audioContext: AudioContext;
+  blob: Blob;
 
   constructor() {
     this.recognition = new webkitSpeechRecognition();
+    this.audioContext = new AudioContext();
+    this.recorder = new Recorder(this.audioContext);
   }
 
   /**
@@ -53,6 +59,12 @@ export class SpeechRecognitionService {
         this.recognition.stop(); 
       }
     }, 50000)
+    navigator.mediaDevices.getUserMedia({audio:true})
+      .then(stream => {
+        this.recorder.init(stream)
+        this.recorder.start();
+      })
+      .catch(err => console.log('No stream...', err));
 
     return Observable.create((observer) => {
       this.recognition.onresult = (e) => {
@@ -66,9 +78,15 @@ export class SpeechRecognitionService {
     });
   }
 
-  public stopSpeechRecognition() {
+  public stopSpeechRecognition(): any {
     this.recording = false;
     this.recognition.onend = (e) => {};
     this.recognition.stop();
+    return this.recorder.stop()
+      .then(({blob, buffer}) => {
+        this.blob = blob;
+        Recorder.download(blob, 'a_blob_file');
+        return this.blob;
+      });
   }
 }

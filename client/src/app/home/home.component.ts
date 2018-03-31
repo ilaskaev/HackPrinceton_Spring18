@@ -21,7 +21,9 @@ export class HomeComponent implements OnInit {
         console.log(item);
       })
     } else {
-      this.speechRecognizer.stopSpeechRecognition();
+      this.speechRecognizer.stopSpeechRecognition().then(result => {
+        console.log(result);
+      })
     }
   }
 
