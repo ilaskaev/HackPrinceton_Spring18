@@ -1,3 +1,22 @@
-<p>
-  auth works!
-</p>
+<div class="card-container">
+    <div class="title">
+        Connect to TLDL;
+    </div>
+    <mat-card class="card">
+        <button mat-button (click)="signInWithGoogle()" class="button btn-social btn-google">
+            <i class="fa fa-google fa-lg"></i> Connect with Google
+        </button>
+
+        <button mat-button (click)="signInWithGithub()" class="button btn-social btn-github">
+            <i class="fa fa-github fa-lg"></i> Connect with GitHub
+        </button>
+
+        <button mat-button (click)="signInWithFacebook()" class="button  btn-social btn-facebook">
+            <i class="fa fa-facebook fa-lg"></i> Connect with Facebook
+        </button>
+
+        <button mat-button (click)="signInWithTwitter()" class="button  btn-social btn-twitter">
+            <i class="fa fa-twitter fa-lg"></i> Connect with Twitter
+        </button>
+    </mat-card>
+</div>

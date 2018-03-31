@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+
 import {AuthService} from './auth/auth.service';
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'tldl-root',
@@ -16,13 +17,15 @@ export class AppComponent implements OnInit {
   }
 
   public checkAuth(): void {
-    this._auth.authenticated.subscribe(res => {
-      if (res == null) {
-        this._router.navigate(['auth'])
-      } else {
-        this._router.navigate(['home'])
-      }
-      this.loaded = true;
-    });
+    setTimeout(() => {
+      this._auth.authenticated.subscribe(res => {
+        if (res == null) {
+          this._router.navigate(['auth'])
+        } else {
+          this._router.navigate(['home'])
+        }
+        this.loaded = true;
+      });
+    }, 750);
   }
 }
