@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~normalize.css/normalize.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import 'src/variables.scss';
+@import '~@angular/material/theming';
+@import './theme.scss';
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: $gray;
+}
+
+a[mat-button]:hover{
+    text-decoration: none;
+    color: white;
+}
+
+a[mat-menu-item]:hover{
+    text-decoration: none;
+}
