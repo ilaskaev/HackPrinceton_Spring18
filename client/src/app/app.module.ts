@@ -15,14 +15,15 @@ import {AuthService} from './auth/auth.service';
 import {CoreModule} from './core/core.module';
 import {NavComponent} from './core/nav/nav.component';
 import {QuillEditorModule} from './external/quill/quillEditor.module';
-import {HomeComponent} from './home/home.component';
+import {EditorComponent} from './editor/editor.component';
 import {ApplicationRouterModule} from './router/router.module';
 import {ToastService} from './services/toast.service';
+import { HomeComponent } from './home/home.component';
 
 
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent, HomeComponent],
+  declarations: [AppComponent, AuthComponent, EditorComponent, HomeComponent],
   imports: [
     BrowserModule, CoreModule, FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
