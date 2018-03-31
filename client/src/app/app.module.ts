@@ -1,3 +1,4 @@
+import { AuthGuard } from './auth/auth.guard';
 import { ApplicationRouterModule } from './router/router.module';
 import {NgModule} from '@angular/core';
 import {MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatToolbarModule} from '@angular/material';
@@ -24,7 +25,7 @@ import { HomeComponent } from './home/home.component';
     MatButtonModule, MatProgressBarModule, MatMenuModule, MatIconModule,
     MatProgressSpinnerModule, MatCardModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
