@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import {AuthService} from './auth/auth.service';
 
@@ -21,8 +21,6 @@ export class AppComponent implements OnInit {
       this._auth.authenticated.subscribe(res => {
         if (res == null) {
           this._router.navigate(['auth'])
-        } else {
-          this._router.navigate(['home'])
         }
         this.loaded = true;
       });

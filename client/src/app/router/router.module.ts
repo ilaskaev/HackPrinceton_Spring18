@@ -13,7 +13,8 @@ import {EditorComponent} from './../editor/editor.component';
 const routes: Routes = [
   {path: 'document/:id', component: EditorComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'auth', component: AuthComponent}
+  {path: 'auth', component: AuthComponent},
+  {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
 @NgModule({

@@ -1,6 +1,8 @@
-import { DocumentService } from './../services/document.service';
 import {Component, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+
+import {Document} from './../interfaces/document';
+import {DocumentService} from './../services/document.service';
 
 @Component({
   selector: 'tldl-editor',
@@ -12,7 +14,7 @@ export class EditorComponent implements OnInit {
   private sub;
   public editor;
   public toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],  // toggled buttons
+    ['voice'], ['bold', 'italic', 'underline', 'strike'],  // toggled buttons
     ['blockquote', 'code-block'],
 
     [{'header': 1}, {'header': 2}],  // custom button values
@@ -34,25 +36,38 @@ export class EditorComponent implements OnInit {
     placeholder: 'Let\'s begin...',
     modules: {
       formula: true,  // Include formula module
-      toolbar: this.toolbarOptions
+      toolbar: {
+        container: this.toolbarOptions,
+        handlers: {
+          'voice': (val) => {
+            console.log('voice!')
+          }
+        }
+      }
     }
   };
+
+  public editorContent = '';
   private doc;
 
-  constructor(private _router: ActivatedRoute, private _docService: DocumentService) {}
+
+  public title = ' ';
+
+  constructor(
+      private _router: ActivatedRoute, private _docService: DocumentService) {}
 
   ngOnInit() {
-      this.sub = this._router.params.subscribe(res => {
-          this.id = res['id'];
-          this._docService.getDocument(this.id).subscribe(result => {
-            this.doc = result;
-          });
-      })
+    this.sub = this._router.params.subscribe(res => {
+      this.id = res['id'];
+      this._docService.getDocument(this.id).subscribe(result => {
+        this.doc = result;
+        this.title = result.name;
+        this.editorContent = this.doc.html;
+      });
+    })
   }
 
-  ngOnDestroy(){
-
-  }
+  ngOnDestroy() {}
 
   onEditorBlured(quill) {
     console.log('editor blur!', quill);
@@ -64,10 +79,18 @@ export class EditorComponent implements OnInit {
 
   onEditorCreated(quill) {
     this.editor = quill;
-    console.log('quill is ready! this is current quill instance object', quill);
+    let el = document.getElementsByClassName('ql-voice')[0];
+    el.innerHTML = '<i class="material-icons" style="font-size: 20px">mic</i>';
   }
 
   onContentChanged({quill, html, text}) {
-    console.log('quill content is changed!', quill, html, text);
+    let doc: Document = {
+      html: html,
+      text: text,
+      date: new Date().toISOString(),
+      name: this.title
+    };
+
+    this._docService.saveDocument(this.id, doc);
   }
 }
