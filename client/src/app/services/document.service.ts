@@ -11,16 +11,16 @@ import {Folder} from './../interfaces/folder';
 
 @Injectable()
 export class DocumentService {
-  private _rootPath: string;
   private _uid: string;
-  private _path: string;
+  private _folderPath: string;
+  private _documentPath: string;
 
   private _ref: AngularFireList<Folder>;
   constructor(private _db: AngularFireDatabase, private _auth: AuthService) {
-    this._rootPath = 'folder';
     this._uid = this._auth.uid;
-    this._path = `${this._rootPath}/${this._uid}`;
-    this._ref = this._db.list(this._path);
+    this._folderPath = `folder/${this._uid}`;
+    this._documentPath = `document`;
+    this._ref = this._db.list(this._folderPath);
   }
 
   public createFolder(name: string) {
@@ -28,13 +28,15 @@ export class DocumentService {
   }
 
   public createDocument(folderName: string, documentName: string) {
-    console.log(folderName, documentName);
-    this._db.object(`${this._path}/${folderName}/documents/${documentName}`)
+    let emptyDoc: Document = {date: new Date(), name: documentName};
+    let pushRef = this._db.list(`${this._documentPath}`).push(emptyDoc);
+    this._db
+        .object(`${this._folderPath}/${folderName}/documents/${pushRef.key}`)
         .set(true)
   }
 
   public getAllFolderNames() {
-    return this._db.object(this._path)
+    return this._db.object(this._folderPath)
         .valueChanges()
         .map((k, v) => Object.keys(k));
   }
