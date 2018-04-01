@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSnackBarModule, MatToolbarModule} from '@angular/material';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule, MatToolbarModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
@@ -16,6 +16,7 @@ import {CoreModule} from './core/core.module';
 import {NavComponent} from './core/nav/nav.component';
 import {EditorComponent} from './editor/editor.component';
 import {QuillEditorModule} from './external/quill/quillEditor.module';
+import {DocumentDialogComponent} from './home/document-dialog/document-dialog.component';
 import {FolderDialogComponent} from './home/folder-dialog/folder-dialog.component';
 import {HomeComponent} from './home/home.component';
 import {ApplicationRouterModule} from './router/router.module';
@@ -27,17 +28,31 @@ import {ToastService} from './services/toast.service';
 @NgModule({
   declarations: [
     AppComponent, AuthComponent, EditorComponent, HomeComponent,
-    FolderDialogComponent
+    FolderDialogComponent, DocumentDialogComponent
   ],
   imports: [
-    BrowserModule, CoreModule, FormsModule,
+    BrowserModule,
+    CoreModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule, AngularFireAuthModule, ApplicationRouterModule,
-    MatToolbarModule, MatButtonModule, MatProgressBarModule, MatMenuModule,
-    MatInputModule, MatDialogModule, MatIconModule, MatSnackBarModule,
-    MatProgressSpinnerModule, MatCardModule, QuillEditorModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    ApplicationRouterModule,
+    ReactiveFormsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    MatMenuModule,
+    MatInputModule,
+    MatDialogModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    QuillEditorModule
   ],
-  entryComponents: [FolderDialogComponent],
+  entryComponents: [FolderDialogComponent, DocumentDialogComponent],
   providers: [AuthService, AuthGuard, ToastService, DocumentService],
   bootstrap: [AppComponent]
 })

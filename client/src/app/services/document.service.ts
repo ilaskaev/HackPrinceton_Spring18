@@ -23,19 +23,19 @@ export class DocumentService {
     this._ref = this._db.list(this._path);
   }
 
-  public createFolder(name: string, folder: Folder) {
-    this._ref.update(name, folder)
-        .then(res => {
-          console.log('success', res);
-        })
-        .catch(res => {
-          console.log('err', res);
-        })
+  public createFolder(name: string) {
+    this._ref.update(name, {'date': new Date()});
   }
 
-  public createDocument(folderName: string, document: Document) {
-      this._db.object(`${this._path}/${folderName}/documents/${document.name}`).set(true)
+  public createDocument(folderName: string, documentName: string) {
+    console.log(folderName, documentName);
+    this._db.object(`${this._path}/${folderName}/documents/${documentName}`)
+        .set(true)
   }
 
-
+  public getAllFolderNames() {
+    return this._db.object(this._path)
+        .valueChanges()
+        .map((k, v) => Object.keys(k));
+  }
 }

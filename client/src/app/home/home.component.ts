@@ -1,7 +1,9 @@
-import { DocumentService } from './../services/document.service';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { FolderDialogComponent } from './folder-dialog/folder-dialog.component';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material';
+
+import {DocumentService} from './../services/document.service';
+import {DocumentDialogComponent} from './document-dialog/document-dialog.component';
+import {FolderDialogComponent} from './folder-dialog/folder-dialog.component';
 
 @Component({
   selector: 'tldl-home',
@@ -9,37 +11,31 @@ import { FolderDialogComponent } from './folder-dialog/folder-dialog.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  constructor(
+      private _docService: DocumentService, private _dialog: MatDialog) {}
 
-  constructor(private _docService: DocumentService, private _dialog: MatDialog) { }
+  public openDialog(): void {}
 
-  public openDialog(): void {
-    // let dialogRef = this._dialog.open(FolderDialogComponent, {
-    //     width: '300px'
-    // })
-
-    // dialogRef.afterClosed().subscribe(res => {
-    //     console.log('closed', res);
-    // })
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public newFolder(): void {
-    let dialogRef = this._dialog.open(FolderDialogComponent, {
-        width: '300px'
-    })
+    let dialogRef = this._dialog.open(FolderDialogComponent, {width: '300px'});
 
     dialogRef.afterClosed().subscribe(res => {
-        console.log('closed', res);
+      if (res != undefined) {
+        this._docService.createFolder(res);
+      }
     })
-    // this._docService.createFolder('qwe', {
-    //     'date': new Date()
-    // })
   }
 
   public newDocument(): void {
-      this._docService.createDocument('qwe', {'date': new Date(), 'name': 'ehas'})
-  }
+    let dialogRef =
+        this._dialog.open(DocumentDialogComponent, {width: '300px'});
 
+        dialogRef.afterClosed().subscribe(res => {
+            if (res != undefined){
+                this._docService.createDocument(res.folderName, res.documentName);
+            }
+        })
+  }
 }

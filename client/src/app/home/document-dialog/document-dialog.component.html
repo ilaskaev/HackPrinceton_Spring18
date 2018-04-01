@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Create New Document</h1>
+<div mat-dialog-content>
+    <p>Please provide a new document name.</p>
+    <form [formGroup]="form">
+        <mat-form-field>
+            <input matInput [(ngModel)]="documentName" placeholder="Name" formControlName="documentName">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select placeholder="Folder Name" formControlName="folderName">
+                <mat-option *ngFor="let folder of folders" [value]="folder">
+                    {{ folder }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions class="actions">
+    <button mat-raised-button color="primary" [mat-dialog-close]="form.value">Create</button>
+    <button mat-button (click)="onNoClick()">Close</button>
+</div>
