@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import Recorder from 'recorder-js';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 declare const webkitSpeechRecognition;
+declare const lib;
 
 @Injectable()
 export class SpeechRecognitionService {
@@ -14,11 +17,16 @@ export class SpeechRecognitionService {
   currentResultIndex = 0; // Keeps track of the unfinalized result for our speech recognition
   finalizedText = "";
   restartInterval: any;
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  }
 
-  constructor() { 
+  constructor(private httpClient: HttpClient) { 
     this.speechRecognition = new webkitSpeechRecognition();
     this.audioContext = new AudioContext();
-    this.recorder = new Recorder(this.audioContext)
+    this.recorder = new Recorder(this.audioContext);
   }
 
   /**
@@ -60,8 +68,40 @@ export class SpeechRecognitionService {
     }, 30000)
     
     // Start the voice recording
-    navigator.mediaDevices.getUserMedia({audio: true})
+    console.log(navigator.mediaDevices);
+    
+    const mediaConfig = {
+      type: 'media-source', // or 'file'
+      audio: {
+        contentType: 'audio/webm; codecs=opus',
+        channels: '2', // audio channels used by the track
+        bitrate: 132266, // number of bits used to encode a second of audio
+        samplerate: 48000 // number of samples of audio carried per second
+      }
+    };
+    
+    (<any>navigator).mediaCapabilities.decodingInfo(mediaConfig).then(result => {
+      console.log('This configuration is' +
+          (result.supported ? '' : ' NOT') + ' supported,' +
+          (result.smooth ? '' : ' NOT') + ' smooth and' +
+          (result.powerEfficient ? '' : ' NOT') + ' power efficient.');
+    });
+
+    navigator.mediaDevices.getUserMedia(<any>({audio: {channelCount: 1}}))
       .then(stream => {
+        // let mediaRecorder = new MediaRecorder(stream);
+        
+        // let splitter = this.audioContext.createChannelSplitter(2);
+
+        // let gainNode = this.audioContext.createGain();
+        // gainNode.gain.value = 1;
+        // splitter.connect(gainNode, 1);
+        // stream.getAudioTracks()[0].applyConstraints((<any>{channelCount: 1})).then(result => {
+          
+        // }).catch(err =>;
+        // let splitter = this.audioContext.createChannelSplitter(2);
+        // let source = this.audioContext.createBufferSource();
+        console.log(stream.getAudioTracks()[0].getSettings());
         this.recorder.init(stream);
         this.recorder.start();
       })
@@ -89,7 +129,39 @@ export class SpeechRecognitionService {
 
     return this.recorder.stop()
       .then(({blob, buffer}) => {
+        
+        // console.log(buffer);
+        // Recorder.download(blob, 'something')
         return blob;
       });
+  }
+
+  public getTextFromBlob(b: any, language: string): Observable<any> {
+    let reader = new FileReader();
+    reader.readAsDataURL(b);
+    let request;
+    reader.onloadend = () => {
+      const config = {
+        encoding: 'LINEAR16',
+        sampleRateHertz: 48000,
+        languageCode: language
+      };
+      request = {
+        config: config,
+        audio: reader.result.slice(reader.result.indexOf(',')+1),
+        label: "hi",
+        api: environment.google
+      };
+      
+      console.log(request.audio);
+      const speechToText = lib.jessebk['speech-to-text']['@dev']
+      console.log(typeof request.config);
+      console.log(typeof request.audio);
+      console.log(typeof request.label);
+      this.httpClient.post("https://functions.lib.id/jessebk/speech-to-text@dev/", JSON.stringify(request), this.httpOptions).subscribe(result => {
+        console.log(result);
+      })
+    };
+    return null;
   }
 }

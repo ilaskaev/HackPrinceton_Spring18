@@ -1,6 +1,7 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {SpeechRecognitionService} from '../services/speech-recognition.service';
+import { SumarrizerService } from '../services/sumarrizer.service';
 
 @Component({
   selector: 'tldl-home',
@@ -13,7 +14,8 @@ export class HomeComponent implements OnInit {
   editorContent: string;
 
   constructor(private speechRecognition: SpeechRecognitionService,
-              public dialog: MatDialog) {}
+              public dialog: MatDialog,
+              private sumarrizer: SumarrizerService) {}
 
   ngOnInit() {}
 
@@ -44,13 +46,18 @@ export class HomeComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.stopRecording();
-    })
+    });
   }
 
   stopRecording() {
+    this.existingText = this.editorContent;
     this.speechRecognition.stopSpeechRecognition().then(value => {
       console.log(value);
+      this.speechRecognition.getTextFromBlob(value, "en-US");
     });
+    this.sumarrizer.getSummary(this.existingText).subscribe(result => {
+      console.log(result);
+    })
   }
 }
 

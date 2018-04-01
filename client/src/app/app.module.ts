@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
+import {HttpClientModule} from '@angular/common/http';
 
 import {environment} from '../environments/environment';
 
@@ -19,7 +20,7 @@ import {HomeComponent, RecordingDialog} from './home/home.component';
 import {ApplicationRouterModule} from './router/router.module';
 import {ToastService} from './services/toast.service';
 import {SpeechRecognitionService} from './services/speech-recognition.service';
-
+import {SumarrizerService} from './services/sumarrizer.service';
 
 @NgModule({
   declarations: [AppComponent, AuthComponent, HomeComponent, RecordingDialog],
@@ -29,9 +30,10 @@ import {SpeechRecognitionService} from './services/speech-recognition.service';
     AngularFirestoreModule, AngularFireAuthModule, ApplicationRouterModule,
     MatToolbarModule, MatButtonModule, MatProgressBarModule, MatMenuModule,
     MatIconModule, MatSnackBarModule, MatProgressSpinnerModule, MatCardModule,
-    MatDialogModule, QuillEditorModule
+    MatDialogModule, QuillEditorModule, HttpClientModule
   ],
-  providers: [AuthService, AuthGuard, ToastService, SpeechRecognitionService],
+  providers: [AuthService, AuthGuard, ToastService, SpeechRecognitionService,
+    SumarrizerService],
   bootstrap: [AppComponent],
   entryComponents: [RecordingDialog]
 })
