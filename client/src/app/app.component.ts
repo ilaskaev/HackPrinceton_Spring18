@@ -26,6 +26,6 @@ export class AppComponent implements OnInit {
         }
         this.loaded = true;
       });
-    }, 750);
+    }, 0);
   }
 }

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {User} from '@firebase/auth-types';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {AngularFirestore} from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 import {Observable} from 'rxjs/Observable';
 
@@ -10,7 +9,7 @@ import {Observable} from 'rxjs/Observable';
 export class AuthService {
   private _path: String;
 
-  constructor(private _auth: AngularFireAuth, private _db: AngularFirestore) {}
+  constructor(private _auth: AngularFireAuth) {}
 
   public logout(): void {
     this._auth.auth.signOut();
@@ -18,6 +17,10 @@ export class AuthService {
 
   public get authenticated(): Observable<User> {
     return this._auth.authState;
+  }
+
+  public get uid(): string{
+      return this._auth.auth.currentUser.uid;
   }
 
   googleLogin() {
