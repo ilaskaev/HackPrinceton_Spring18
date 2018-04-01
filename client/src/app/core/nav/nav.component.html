@@ -1,19 +1,18 @@
 <mat-toolbar color="primary">
-        <mat-toolbar-row>
-            <div class="container">
-                <span>TLDL;</span>
-                <div class="float-right">
-                    <a mat-button routerLink="/">Home</a>
-                    <a mat-button>Button 2</a>
-                    <a mat-button routerLink="/auth">Login</a>
-    
-    
-                    <button mat-button [matMenuTriggerFor]="appMenu">Button 4 <mat-icon>arrow_drop_down</mat-icon></button>
-                    <mat-menu #appMenu="matMenu">
-                        <a mat-menu-item>Menu 1</a>
-                        <a mat-menu-item>Menu 2</a>
-                    </mat-menu>
-                </div>
+    <mat-toolbar-row>
+        <div class="container">
+            <span>TLDL;</span>
+            <div class="float-right">
+                <a mat-button routerLink="/">Documents</a>
+                <button mat-button [matMenuTriggerFor]="appMenu">Help
+                    <mat-icon>arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #appMenu="matMenu">
+                    <a mat-menu-item>Documentation</a>
+                    <a mat-menu-item>Contact</a>
+                </mat-menu>
+                <img class="profile-pic" [src]="profilePicSrc">
             </div>
-        </mat-toolbar-row>
-    </mat-toolbar>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
