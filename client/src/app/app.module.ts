@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule, MatToolbarModule, MatTableModule, MatPaginatorModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule, MatToolbarModule, MatTableModule, MatPaginatorModule, MatTabsModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from 'angularfire2';
@@ -55,7 +55,8 @@ import {SummaryService} from './services/summary.service';
     MatProgressSpinnerModule,
     MatCardModule,
     QuillEditorModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTabsModule
   ],
   entryComponents: [FolderDialogComponent, DocumentDialogComponent],
   providers: [AuthService, AuthGuard, ToastService, DocumentService,

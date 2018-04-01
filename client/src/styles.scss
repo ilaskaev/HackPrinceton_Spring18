@@ -16,3 +16,7 @@ a[mat-button]:hover{
 a[mat-menu-item]:hover{
     text-decoration: none;
 }
+
+.mat-tab-body-content {
+    height: unset !important;
+}

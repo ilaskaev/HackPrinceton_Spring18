@@ -21,7 +21,8 @@ export class SummaryService {
     };
     return this.httpClient.post<string>(this.libUrl, request, this.httpOptions)
       .map(result => {
-        console.log(JSON.parse(result));
+        let obj = JSON.parse(result);
+        if (!obj['sm_api_content']) return "Text is too small to summarize";
         return JSON.parse(result)['sm_api_content'];
       });
   }

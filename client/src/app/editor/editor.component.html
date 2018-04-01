@@ -2,6 +2,15 @@
     <h3>{{title}}</h3>
 </div>
 <div class="row">
-    <quill-editor id="editor" [(ngModel)]="editorContent" [options]="editorConfig" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
-        (ready)="onEditorCreated($event)" (change)="onContentChanged($event)"></quill-editor>
+    <mat-tab-group (selectedIndexChange)="tabChange($event)">
+        <mat-tab label="Editor">
+            <quill-editor id="editor" [(ngModel)]="editorContent" [options]="editorConfig" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
+                (ready)="onEditorCreated($event)" (change)="onContentChanged($event)"></quill-editor>
+        </mat-tab>
+        <mat-tab label="Summary">
+            <mat-progress-bar *ngIf="summaryLoading" mode="indeterminate"></mat-progress-bar>
+            {{summary}}
+        </mat-tab>
+    </mat-tab-group>
 </div>
+

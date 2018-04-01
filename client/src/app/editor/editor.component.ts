@@ -3,6 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 
 import {Document} from './../interfaces/document';
 import {DocumentService} from './../services/document.service';
+import { SpeechRecognitionService } from './../services/speech-recognition.service';
+import { SummaryService } from './../services/summary.service';
 
 @Component({
   selector: 'tldl-editor',
@@ -40,7 +42,7 @@ export class EditorComponent implements OnInit {
         container: this.toolbarOptions,
         handlers: {
           'voice': (val) => {
-            console.log('voice!')
+            this.toggleVoice();
           }
         }
       }
@@ -49,12 +51,18 @@ export class EditorComponent implements OnInit {
 
   public editorContent = '';
   private doc;
-
+  private existingContent = '';
+  private textContent = '';
+  private summary = '';
+  private summaryLoading = false;
 
   public title = ' ';
 
+
   constructor(
-      private _router: ActivatedRoute, private _docService: DocumentService) {}
+      private _router: ActivatedRoute, private _docService: DocumentService,
+    private _speechService: SpeechRecognitionService,
+    private _summaryService: SummaryService) {}
 
   ngOnInit() {
     this.sub = this._router.params.subscribe(res => {
@@ -90,7 +98,32 @@ export class EditorComponent implements OnInit {
       date: new Date().toISOString(),
       name: this.title
     };
+    this.textContent = text;
 
     this._docService.saveDocument(this.id, doc);
+  }
+
+  toggleVoice() {
+    if (this._speechService.isRecording) {
+      let result = this._speechService.stopSpeechRecognition();
+      this.editorContent = this.existingContent + '<p>' + result + '</p>';
+    } else {
+      this.existingContent = this.editorContent;
+      this._speechService.startSpeechRecognition(true, true, 'en-US').subscribe(result => {
+        // TODO:
+        this.editorContent = this.existingContent + '<p>' + result + '</p>';
+      });
+    }
+  }
+
+  tabChange(selectedTab: number) {
+    if (selectedTab == 1) {
+      this.summaryLoading = true;
+      this.summary = '';
+      this._summaryService.getSummary(this.textContent).subscribe(result => {
+        this.summaryLoading = false;
+        this.summary = result;
+      });
+    }
   }
 }
