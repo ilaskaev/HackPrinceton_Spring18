@@ -11,6 +11,7 @@ export class SpeechRecognitionService {
   private finalizedText = "";
   private currentResultIndex = 0; // Keeps track of the results of the speech stream
   private restartInterval;
+  private lastText = '';
 
   constructor() { 
     this.speechRecognition = new webkitSpeechRecognition();
@@ -64,6 +65,7 @@ export class SpeechRecognitionService {
         }
         newText = e.results[e.resultIndex][0].transcript.trim();
         newText = " " + newText.trim().charAt(0).toUpperCase() + newText.slice(1);
+        this.lastText = newText;
         return observer.next(this.finalizedText + newText);
       }
     });
@@ -81,6 +83,6 @@ export class SpeechRecognitionService {
     clearInterval(this.restartInterval);
     this.speechRecognition.onend = (e) => {};
     this.speechRecognition.stop();
-    return this.finalizedText;
+    return this.lastText;
   }
 }
