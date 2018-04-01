@@ -59,6 +59,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         promises.push(promise);
       }
       Promise.all(promises).then(res => {
+          res.sort((a, b) => {
+            return new Date(b.date).getTime() - new Date(a.date).getTime();
+          });
         this.dataSource.data = res;
         console.log('recent', res);
       });
