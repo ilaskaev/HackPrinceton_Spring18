@@ -8,11 +8,13 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavComponent implements OnInit {
     public profilePicSrc = '';
+    public hide = true;
 
   constructor(private _authService: AuthService) {
         this._authService.authenticated.subscribe(res =>{
             if (res != null){
                 this.profilePicSrc = res.photoURL;
+                this.hide = false;
             }
         });
   }

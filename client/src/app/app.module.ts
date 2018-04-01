@@ -25,12 +25,13 @@ import {DocumentService} from './services/document.service';
 import {ToastService} from './services/toast.service';
 import {SpeechRecognitionService} from './services/speech-recognition.service';
 import {SummaryService} from './services/summary.service';
+import { LogoutComponent } from './core/logout/logout.component';
 
 
 @NgModule({
   declarations: [
     AppComponent, AuthComponent, EditorComponent, HomeComponent,
-    FolderDialogComponent, DocumentDialogComponent
+    FolderDialogComponent, DocumentDialogComponent, LogoutComponent
   ],
   imports: [
     BrowserModule,

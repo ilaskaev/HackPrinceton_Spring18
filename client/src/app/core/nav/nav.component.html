@@ -1,7 +1,7 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" *ngIf="!hide">
     <mat-toolbar-row>
         <div class="container">
-            <span>TLDL;</span>
+            <span>TLDW</span>
             <div class="float-right">
                 <a mat-button routerLink="/">Documents</a>
                 <button mat-button [matMenuTriggerFor]="appMenu">Help

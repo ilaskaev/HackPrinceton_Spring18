@@ -1,3 +1,4 @@
+import { LogoutComponent } from './../core/logout/logout.component';
 import { HomeComponent } from './../home/home.component';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'document/:id', component: EditorComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'auth', component: AuthComponent},
+  {path: 'logout', component: LogoutComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
