@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import Recorder from 'recorder-js';
 
 declare const webkitSpeechRecognition; // For built in speech recognition
 
