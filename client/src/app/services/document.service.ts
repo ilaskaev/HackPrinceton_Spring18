@@ -36,8 +36,10 @@ export class DocumentService {
   }
 
   public getAllFolderNames() {
-    return this._db.object(this._folderPath)
-        .valueChanges()
-        .map((k, v) => Object.keys(k));
+    return this._db.object(this._folderPath).valueChanges().map((k, v) => {
+      let keys = ['Default'];
+      keys = keys.concat(Object.keys(k));
+      return keys;
+    });
   }
 }
