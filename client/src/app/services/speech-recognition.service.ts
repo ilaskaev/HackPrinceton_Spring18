@@ -50,6 +50,7 @@ export class SpeechRecognitionService {
     this.speechRecognition.start();
     this.restartInterval = setInterval(() => {
       if (this.isRecording) {
+        this.finalizedText = this.finalizedText + this.lastText;
         this.speechRecognition.stop();
       }
     }, 30000);
@@ -83,6 +84,6 @@ export class SpeechRecognitionService {
     clearInterval(this.restartInterval);
     this.speechRecognition.onend = (e) => {};
     this.speechRecognition.stop();
-    return this.lastText;
+    return this.finalizedText;
   }
 }
