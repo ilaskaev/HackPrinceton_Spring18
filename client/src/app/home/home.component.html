@@ -35,7 +35,7 @@
                 <ng-container matColumnDef="title">
                     <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        <a>{{element.name}}</a>
+                        <a class="document-name" [routerLink]="['../document', element.id]">{{element.name}}</a>
                     </mat-cell>
                 </ng-container>
 

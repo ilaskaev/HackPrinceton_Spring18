@@ -9,10 +9,19 @@
     text-align: left;
 }
 
-.date-col{
+.date-col {
     max-width: 150px;
 }
 
-.owner-col{
+.owner-col {
     max-width: 150px;
+}
+
+.document-name:hover {
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+.row.top {
+    margin-top: 50px;
 }
