@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 
 import {DocumentService} from './../services/document.service';
 import {DocumentDialogComponent} from './document-dialog/document-dialog.component';
@@ -10,16 +10,21 @@ import {FolderDialogComponent} from './folder-dialog/folder-dialog.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   documentTypes: string[];
   folders: DocumentCount[];
-  recentDocuments: Document[];
   displayedColumns = ['title', 'owner', 'date'];
+  dataSource = new MatTableDataSource<Document>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
       private _docService: DocumentService, private _dialog: MatDialog) {}
 
   public openDialog(): void {}
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 
   ngOnInit() {
     this.documentTypes = [
@@ -54,7 +59,7 @@ export class HomeComponent implements OnInit {
         promises.push(promise);
       }
       Promise.all(promises).then(res => {
-        this.recentDocuments = res;
+        this.dataSource.data = res;
         console.log('recent', res);
       });
     });
@@ -76,7 +81,7 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res != undefined) {
-        this._docService.createDocument(res.folderName, res.documentName);
+        this._docService.createDocument(res.documentName, res.folderName);
       }
     })
   }

@@ -30,9 +30,11 @@ export class DocumentService {
     this._ref.update(name, {'date': new Date()});
   }
 
-  public createDocument(folderName: string, documentName: string) {
+  public createDocument(documentName: string, folderName: string) {
+      if (folderName == ''){
+          folderName = 'Default';
+      }
     let emptyDoc: Document = {date: new Date().toISOString(), name: documentName};
-    console.log(emptyDoc);
     let pushRef = this._db.list(`${this._documentPath}`).push(emptyDoc);
     this._db
         .object(`${this._folderPath}/${folderName}/documents/${pushRef.key}`)

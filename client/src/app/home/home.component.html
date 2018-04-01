@@ -28,13 +28,15 @@
         </div>
     </div>
     <div class="col-9">
-        <h3>Recent Documents</h3>
+        <h3>All Documents</h3>
         <div class="mat-elevation-z1">
-            <mat-table #table [dataSource]="recentDocuments">
+            <mat-table #table [dataSource]="dataSource">
 
                 <ng-container matColumnDef="title">
                     <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> <a>{{element.name}}</a> </mat-cell>
+                    <mat-cell *matCellDef="let element">
+                        <a>{{element.name}}</a>
+                    </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="owner">
@@ -50,6 +52,8 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+            </mat-paginator>
         </div>
     </div>
 </div>
