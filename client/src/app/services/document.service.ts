@@ -31,10 +31,11 @@ export class DocumentService {
   }
 
   public createDocument(documentName: string, folderName: string) {
-      if (folderName == ''){
-          folderName = 'Default';
-      }
-    let emptyDoc: Document = {date: new Date().toISOString(), name: documentName};
+    if (folderName == '') {
+      folderName = 'Default';
+    }
+    let emptyDoc:
+        Document = {date: new Date().toISOString(), name: documentName, html: '', text: ''};
     let pushRef = this._db.list(`${this._documentPath}`).push(emptyDoc);
     this._db
         .object(`${this._folderPath}/${folderName}/documents/${pushRef.key}`)
@@ -49,6 +50,16 @@ export class DocumentService {
       }
       return keys;
     });
+  }
+
+  public getDocument(id: string): Observable<Document> {
+    return this._db.object<Document>(`${this._documentPath}/${id}`)
+        .valueChanges();
+  }
+
+  public saveDocument(id: string, doc: Document) {
+    this._db.object<Document>(`${this._documentPath}/${id}`)
+        .update(doc);
   }
 
   public getAllFolders() {
@@ -68,10 +79,5 @@ export class DocumentService {
       }
       return arr;
     });
-  }
-
-  public getDocument(id: string) {
-    return this._db.object<Document>(`${this._documentPath}/${id}`)
-        .valueChanges();
   }
 }

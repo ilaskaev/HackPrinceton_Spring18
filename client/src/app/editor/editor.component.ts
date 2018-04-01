@@ -1,4 +1,6 @@
+import { DocumentService } from './../services/document.service';
 import {Component, OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'tldl-editor',
@@ -6,6 +8,8 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
+  public id: string;
+  private sub;
   public editor;
   public toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],  // toggled buttons
@@ -33,10 +37,22 @@ export class EditorComponent implements OnInit {
       toolbar: this.toolbarOptions
     }
   };
+  private doc;
 
-  constructor() {}
+  constructor(private _router: ActivatedRoute, private _docService: DocumentService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+      this.sub = this._router.params.subscribe(res => {
+          this.id = res['id'];
+          this._docService.getDocument(this.id).subscribe(result => {
+            this.doc = result;
+          });
+      })
+  }
+
+  ngOnDestroy(){
+
+  }
 
   onEditorBlured(quill) {
     console.log('editor blur!', quill);

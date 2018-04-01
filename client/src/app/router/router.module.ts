@@ -11,7 +11,7 @@ import {EditorComponent} from './../editor/editor.component';
 
 
 const routes: Routes = [
-  {path: 'file', component: EditorComponent, canActivate: [AuthGuard]},
+  {path: 'document/:id', component: EditorComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'auth', component: AuthComponent}
 ];

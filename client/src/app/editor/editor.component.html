@@ -6,7 +6,7 @@
         <p>Tree</p>
     </div>
     <div class="editor-col">
-        <quill-editor id="editor" [(ngModel)]="editorContent" [options]="editorConfig" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)" (ready)="onEditorCreated($event)"
-            (change)="onContentChanged($event)"></quill-editor>
+        <quill-editor id="editor" [(ngModel)]="editorContent" [options]="editorConfig" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
+            (ready)="onEditorCreated($event)" (change)="onContentChanged($event)"></quill-editor>
     </div>
 </div>
