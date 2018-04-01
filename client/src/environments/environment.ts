@@ -12,5 +12,6 @@ export const environment = {
     projectId: "hackprinceton-spr2018",
     storageBucket: "hackprinceton-spr2018.appspot.com",
     messagingSenderId: "379768507832"
-  }
+  },
+  smmryApiKey: 'E20B1B7A10'
 };

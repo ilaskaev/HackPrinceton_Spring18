@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule, MatToolbarModule, MatTableModule, MatPaginatorModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule, MatToolbarModule, MatTableModule, MatPaginatorModule, MatTabsModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
+import {HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
@@ -22,7 +23,8 @@ import {HomeComponent} from './home/home.component';
 import {ApplicationRouterModule} from './router/router.module';
 import {DocumentService} from './services/document.service';
 import {ToastService} from './services/toast.service';
-
+import {SpeechRecognitionService} from './services/speech-recognition.service';
+import {SummaryService} from './services/summary.service';
 
 
 @NgModule({
@@ -52,10 +54,13 @@ import {ToastService} from './services/toast.service';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    QuillEditorModule
+    QuillEditorModule,
+    HttpClientModule,
+    MatTabsModule
   ],
   entryComponents: [FolderDialogComponent, DocumentDialogComponent],
-  providers: [AuthService, AuthGuard, ToastService, DocumentService],
+  providers: [AuthService, AuthGuard, ToastService, DocumentService,
+              SpeechRecognitionService, SummaryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
