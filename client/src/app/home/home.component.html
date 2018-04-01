@@ -1,9 +1,59 @@
-<div class="col-container">
-    <div class="tree-col">
-        <p>Tree</p>
+<div class="row top">
+    <div class="col-3">
+        <div>
+            <button (click)="newDocument()" mat-raised-button color="primary">
+                <mat-icon>add</mat-icon> Document</button>
+        </div>
     </div>
-    <div class="editor-col">
-        <quill-editor id="editor" [(ngModel)]="editorContent" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)" (ready)="onEditorCreated($event)"
-            (change)="onContentChanged($event)"></quill-editor>
+    <div class="col-9">
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <h4>Documents</h4>
+        <div class="document-types">
+            <button class="side-btn" mat-raised-button color="primary">All Documents</button>
+            <button class="side-btn" mat-button *ngFor="let type of documentTypes">{{type}}</button>
+        </div>
+        <hr>
+        <h4>Folders</h4>
+        <div>
+            <button (click)="newFolder()" mat-raised-button color="primary">
+                <mat-icon>add</mat-icon> Folder</button>
+        </div>
+        <div class="folders">
+            <button mat-button class="side-btn" *ngFor="let folder of folders">
+                <mat-icon>folder_open</mat-icon> {{folder.name}} ({{folder.count}})</button>
+        </div>
+    </div>
+    <div class="col-9">
+        <h3>All Documents</h3>
+        <div class="mat-elevation-z1">
+            <mat-table #table [dataSource]="dataSource">
+
+                <ng-container matColumnDef="title">
+                    <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <a class="document-name" [routerLink]="['../document', element.id]">{{element.name}}</a>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="owner">
+                    <mat-header-cell *matHeaderCellDef class="owner-col"> Owner </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="owner-col"> You </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef class="date-col"> Date Last Modified </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="date-col"> {{element.date |date:'short'}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+            </mat-paginator>
+        </div>
     </div>
 </div>
