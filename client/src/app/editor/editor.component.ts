@@ -3,8 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 
 import {Document} from './../interfaces/document';
 import {DocumentService} from './../services/document.service';
-import { SpeechRecognitionService } from './../services/speech-recognition.service';
-import { SummaryService } from './../services/summary.service';
+import {SpeechRecognitionService} from './../services/speech-recognition.service';
+import {SummaryService} from './../services/summary.service';
 
 @Component({
   selector: 'tldl-editor',
@@ -61,8 +61,8 @@ export class EditorComponent implements OnInit {
 
   constructor(
       private _router: ActivatedRoute, private _docService: DocumentService,
-    private _speechService: SpeechRecognitionService,
-    private _summaryService: SummaryService) {}
+      private _speechService: SpeechRecognitionService,
+      private _summaryService: SummaryService) {}
 
   ngOnInit() {
     this.sub = this._router.params.subscribe(res => {
@@ -88,7 +88,8 @@ export class EditorComponent implements OnInit {
   onEditorCreated(quill) {
     this.editor = quill;
     let el = document.getElementsByClassName('ql-voice')[0];
-    el.innerHTML = '<i class="material-icons" style="font-size: 20px">mic</i>';
+    el.innerHTML =
+        '<i class="material-icons" id="mic_icon" style="font-size: 20px">mic</i>';
   }
 
   onContentChanged({quill, html, text}) {
@@ -104,15 +105,18 @@ export class EditorComponent implements OnInit {
   }
 
   toggleVoice() {
+    let micIcon = document.getElementById('mic_icon');
     if (this._speechService.isRecording) {
+      micIcon.style.color = 'inherit';
       let result = this._speechService.stopSpeechRecognition();
       this.editorContent = this.existingContent + '<p>' + result + '</p>';
     } else {
+      micIcon.style.color = 'red';
       this.existingContent = this.editorContent;
-      this._speechService.startSpeechRecognition(true, true, 'en-US').subscribe(result => {
-        // TODO:
-        this.editorContent = this.existingContent + '<p>' + result + '</p>';
-      });
+      this._speechService.startSpeechRecognition(true, true, 'en-US')
+          .subscribe(result => {
+            this.editorContent = this.existingContent + '<p>' + result + '</p>';
+          });
     }
   }
 
