@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {User} from '@firebase/auth-types';
+import {User, FirebaseAuth} from '@firebase/auth-types';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import {Observable} from 'rxjs/Observable';
@@ -17,6 +17,10 @@ export class AuthService {
 
   public get authenticated(): Observable<User> {
     return this._auth.authState;
+  }
+
+  public get user(): FirebaseAuth{
+      return this._auth.auth;
   }
 
   public get uid(): string{
