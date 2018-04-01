@@ -1,3 +1,6 @@
+import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/observable/merge';
+
 import {Injectable} from '@angular/core';
 import {Query} from '@firebase/database';
 import {ThenableReference} from '@firebase/database-types';
@@ -28,7 +31,8 @@ export class DocumentService {
   }
 
   public createDocument(folderName: string, documentName: string) {
-    let emptyDoc: Document = {date: new Date(), name: documentName};
+    let emptyDoc: Document = {date: new Date().toISOString(), name: documentName};
+    console.log(emptyDoc);
     let pushRef = this._db.list(`${this._documentPath}`).push(emptyDoc);
     this._db
         .object(`${this._folderPath}/${folderName}/documents/${pushRef.key}`)
@@ -37,9 +41,35 @@ export class DocumentService {
 
   public getAllFolderNames() {
     return this._db.object(this._folderPath).valueChanges().map((k, v) => {
-      let keys = ['Default'];
-      keys = keys.concat(Object.keys(k));
+      let keys = Object.keys(k);
+      if (!keys.includes('Default')) {
+        keys.unshift('Default');
+      }
       return keys;
     });
+  }
+
+  public getAllFolders() {
+    return this._db.object(this._folderPath).valueChanges();
+  }
+
+  public getRecentDocuments() {
+    return this._db.object(this._folderPath).valueChanges().map(res => {
+      let arr = [];
+      for (let prop in res) {
+        if (res.hasOwnProperty(prop)) {
+          let temp = res[prop];
+          if (temp.documents != null) {
+            arr = arr.concat(Object.keys(temp.documents));
+          }
+        }
+      }
+      return arr;
+    });
+  }
+
+  public getDocument(id: string) {
+    return this._db.object<Document>(`${this._documentPath}/${id}`)
+        .valueChanges();
   }
 }

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule, MatToolbarModule, MatTableModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
@@ -47,6 +47,7 @@ import {ToastService} from './services/toast.service';
     MatDialogModule,
     MatIconModule,
     MatSnackBarModule,
+    MatTableModule,
     MatSelectModule,
     MatProgressSpinnerModule,
     MatCardModule,
