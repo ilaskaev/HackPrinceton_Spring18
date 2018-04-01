@@ -1,5 +1,5 @@
 <div class="row">
-    <h3>{{title}}</h3>
+    <a routerLink="../../home"><mat-icon>arrow_back</mat-icon></a><h3>{{title}}</h3>
 </div>
 <div class="row">
     <quill-editor id="editor" [(ngModel)]="editorContent" [options]="editorConfig" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
